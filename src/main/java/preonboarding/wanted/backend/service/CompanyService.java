@@ -2,6 +2,7 @@ package preonboarding.wanted.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import preonboarding.wanted.backend.data.company.Company;
 import preonboarding.wanted.backend.data.company.CompanyInfoDto;
 import preonboarding.wanted.backend.data.company.CompanyUpdateDto;
@@ -12,10 +13,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
 
+    @Transactional
     public Long save(CompanyRequestDto requestDto) {
         return companyRepository.save(Company.of(requestDto)).getId();
     }
@@ -24,6 +27,7 @@ public class CompanyService {
         return companyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다."));
     }
 
+    @Transactional
     public Long update(Long id, CompanyUpdateDto editDto) {
         Company company = companyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다."));
         company.update(editDto);
@@ -36,6 +40,7 @@ public class CompanyService {
                 .toList();
     }
 
+    @Transactional
     public void delete(Long id) {
         companyRepository.deleteById(id);
     }
