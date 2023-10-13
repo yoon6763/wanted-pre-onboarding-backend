@@ -4,6 +4,7 @@ import lombok.*;
 import preonboarding.wanted.backend.data.company.Company;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -13,7 +14,7 @@ import javax.persistence.*;
 public class Recruit {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recruit_id", nullable = false)
     private Long id;
     private String position;
@@ -51,6 +52,20 @@ public class Recruit {
                 .position(this.position)
                 .compensation(this.compensation)
                 .tech(this.tech)
+                .build();
+    }
+
+    public RecruitDetailDto toDetailDto(List<Long> otherRecruitIds) {
+        return RecruitDetailDto.builder()
+                .id(this.id)
+                .companyName(this.company.getName())
+                .companyCountry(this.company.getCountry())
+                .companyLocation(this.company.getLocation())
+                .position(this.position)
+                .compensation(this.compensation)
+                .tech(this.tech)
+                .content(this.content)
+                .otherRecruitIds(otherRecruitIds)
                 .build();
     }
 }
