@@ -68,4 +68,11 @@ public class Recruit {
                 .otherRecruitIds(otherRecruitIds)
                 .build();
     }
+
+    public void update(RecruitUpdateDto recruitUpdateDto) {
+        this.position = recruitUpdateDto.getPosition();
+        this.compensation = recruitUpdateDto.getCompensation();
+        this.content = recruitUpdateDto.getContent();
+        this.tech = recruitUpdateDto.getTech();
+    }
 }

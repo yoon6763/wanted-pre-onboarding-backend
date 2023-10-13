@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import preonboarding.wanted.backend.data.recruit.RecruitDetailDto;
 import preonboarding.wanted.backend.data.recruit.RecruitInfoDto;
 import preonboarding.wanted.backend.data.recruit.RecruitRequestDto;
+import preonboarding.wanted.backend.data.recruit.RecruitUpdateDto;
 import preonboarding.wanted.backend.service.RecruitService;
 
 import java.util.List;
@@ -36,4 +37,9 @@ public class RecruitController {
         recruitService.deleteRecruit(id);
     }
 
+    @PutMapping("/{id}")
+    public RecruitDetailDto updateRecruit(@PathVariable Long id, @RequestBody RecruitUpdateDto recruitUpdateDto) {
+        recruitService.updateRecruit(id, recruitUpdateDto);
+        return recruitService.findById(id);
+    }
 }
