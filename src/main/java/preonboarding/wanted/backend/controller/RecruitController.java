@@ -1,6 +1,7 @@
 package preonboarding.wanted.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import preonboarding.wanted.backend.data.recruit.RecruitDetailDto;
 import preonboarding.wanted.backend.data.recruit.RecruitInfoDto;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/recruit")
 @RequiredArgsConstructor
+@Slf4j
 public class RecruitController {
 
     private final RecruitService recruitService;
@@ -41,5 +43,11 @@ public class RecruitController {
     public RecruitDetailDto updateRecruit(@PathVariable Long id, @RequestBody RecruitUpdateDto recruitUpdateDto) {
         recruitService.updateRecruit(id, recruitUpdateDto);
         return recruitService.findById(id);
+    }
+
+    @GetMapping("/search")
+    public List<RecruitInfoDto> searchRecruit(@RequestParam String search) {
+        log.info("search: {}", search);
+        return recruitService.searchRecruit(search);
     }
 }

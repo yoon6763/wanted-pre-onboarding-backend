@@ -50,4 +50,8 @@ public class RecruitService {
     private List<Long> getOtherRecruitIds(Recruit recruit) {
         return recruitRepository.findAllByCompanyId(recruit.getCompany().getId()).stream().map(Recruit::getId).toList();
     }
+
+    public List<RecruitInfoDto> searchRecruit(String keyword) {
+        return recruitRepository.searchRecruit(keyword).stream().map(Recruit::toInfoDto).toList();
+    }
 }
