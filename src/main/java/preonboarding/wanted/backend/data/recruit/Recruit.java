@@ -1,6 +1,7 @@
 package preonboarding.wanted.backend.data.recruit;
 
 import lombok.*;
+import preonboarding.wanted.backend.data.apply.Apply;
 import preonboarding.wanted.backend.data.company.Company;
 
 import javax.persistence.*;
@@ -25,6 +26,9 @@ public class Recruit {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
+    private List<Apply> applies;
 
     public void setCompany(Company company) {
         this.company = company;
