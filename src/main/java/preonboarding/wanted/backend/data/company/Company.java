@@ -1,11 +1,11 @@
 package preonboarding.wanted.backend.data.company;
 
 import lombok.*;
+import preonboarding.wanted.backend.data.recruit.Recruit;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -15,7 +15,7 @@ import javax.persistence.Id;
 public class Company {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_id", nullable = false)
     private Long id;
 
@@ -23,6 +23,9 @@ public class Company {
     private String name;
     private String country;
     private String location;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    private List<Recruit> recruits = new ArrayList<>();
 
     public static Company of(CompanyRequestDto requestDto) {
         return Company.builder()
