@@ -2,6 +2,7 @@ package preonboarding.wanted.backend.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import preonboarding.wanted.backend.data.common.RegisterResponse;
 import preonboarding.wanted.backend.data.company.CompanyInfoDto;
@@ -19,19 +20,19 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping("/api/company/{id}")
-    public CompanyInfoDto getCompanyInfo(@PathVariable Long id) {
-        return companyService.findById(id).toInfoDto();
+    public ResponseEntity<CompanyInfoDto> getCompanyInfo(@PathVariable Long id) {
+        return ResponseEntity.ok().body(companyService.findById(id).toInfoDto());
     }
 
     @PostMapping("/api/company")
-    public RegisterResponse saveCompany(@RequestBody CompanyRequestDto companyRequestDto) {
-        return new RegisterResponse(companyService.save(companyRequestDto));
+    public ResponseEntity<RegisterResponse> saveCompany(@RequestBody CompanyRequestDto companyRequestDto) {
+        return ResponseEntity.ok().body(new RegisterResponse(companyService.save(companyRequestDto)));
     }
 
     @PutMapping("/api/company/{id}")
-    public CompanyInfoDto updateCompanyInfo(@PathVariable Long id, @RequestBody CompanyUpdateDto companyUpdateDto) {
+    public ResponseEntity<CompanyInfoDto> updateCompanyInfo(@PathVariable Long id, @RequestBody CompanyUpdateDto companyUpdateDto) {
         companyService.update(id, companyUpdateDto);
-        return companyService.findById(id).toInfoDto();
+        return ResponseEntity.ok().body(companyService.findById(id).toInfoDto());
     }
 
     @DeleteMapping("/api/company/{id}")
@@ -40,7 +41,7 @@ public class CompanyController {
     }
 
     @GetMapping("/api/company")
-    public List<CompanyInfoDto> getCompanyList() {
-        return companyService.findAll();
+    public ResponseEntity<List<CompanyInfoDto>> getCompanyList() {
+        return ResponseEntity.ok().body(companyService.findAll());
     }
 }

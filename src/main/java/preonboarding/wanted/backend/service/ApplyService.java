@@ -8,6 +8,9 @@ import preonboarding.wanted.backend.data.apply.ApplyInfoDto;
 import preonboarding.wanted.backend.data.apply.ApplyRequestDto;
 import preonboarding.wanted.backend.data.recruit.Recruit;
 import preonboarding.wanted.backend.data.user.User;
+import preonboarding.wanted.backend.exception.DuplicateApplyException;
+import preonboarding.wanted.backend.exception.RecruitNotFoundException;
+import preonboarding.wanted.backend.exception.UserNotFoundException;
 import preonboarding.wanted.backend.repository.ApplyRepository;
 import preonboarding.wanted.backend.repository.RecruitRepository;
 import preonboarding.wanted.backend.repository.UserRepository;
@@ -25,8 +28,8 @@ public class ApplyService {
 
     @Transactional
     public Long apply(ApplyRequestDto applyRequestDto) {
-        User user = userRepository.findById(applyRequestDto.getUserId()).orElseThrow();
-        Recruit recruit = recruitRepository.findById(applyRequestDto.getRecruitId()).orElseThrow();
+        User user = userRepository.findById(applyRequestDto.getUserId()).orElseThrow(UserNotFoundException::new);
+        Recruit recruit = recruitRepository.findById(applyRequestDto.getRecruitId()).orElseThrow(RecruitNotFoundException::new);
 
         checkDuplicateApply(user, recruit);
 
@@ -49,8 +52,8 @@ public class ApplyService {
 
 
     private void checkDuplicateApply(User user, Recruit recruit) {
-        if (applyRepository.findByUserAndRecruit(user, recruit).isPresent()) {
-            throw new IllegalArgumentException("이미 지원한 공고입니다.");
-        }
+        applyRepository.findByUserAndRecruit(user, recruit).ifPresent(apply -> {
+            throw new DuplicateApplyException();
+        });
     }
 }

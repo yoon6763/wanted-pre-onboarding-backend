@@ -7,6 +7,7 @@ import preonboarding.wanted.backend.data.company.Company;
 import preonboarding.wanted.backend.data.company.CompanyInfoDto;
 import preonboarding.wanted.backend.data.company.CompanyUpdateDto;
 import preonboarding.wanted.backend.data.company.CompanyRequestDto;
+import preonboarding.wanted.backend.exception.CompanyNotFoundException;
 import preonboarding.wanted.backend.repository.CompanyRepository;
 
 import java.util.List;
@@ -24,12 +25,12 @@ public class CompanyService {
     }
 
     public Company findById(Long id) {
-        return companyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다."));
+        return companyRepository.findById(id).orElseThrow(CompanyNotFoundException::new);
     }
 
     @Transactional
     public Long update(Long id, CompanyUpdateDto editDto) {
-        Company company = companyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다."));
+        Company company = companyRepository.findById(id).orElseThrow(CompanyNotFoundException::new);
         company.update(editDto);
         return company.getId();
     }

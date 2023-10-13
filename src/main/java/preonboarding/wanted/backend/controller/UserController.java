@@ -1,6 +1,7 @@
 package preonboarding.wanted.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public RegisterResponse registerUser(@RequestBody UserRequestDto userRequestDto) {
-        return new RegisterResponse(userService.registerUser(userRequestDto));
+    public ResponseEntity<RegisterResponse> registerUser(@RequestBody UserRequestDto userRequestDto) {
+        return ResponseEntity.ok().body(new RegisterResponse(userService.registerUser(userRequestDto)));
     }
 }
