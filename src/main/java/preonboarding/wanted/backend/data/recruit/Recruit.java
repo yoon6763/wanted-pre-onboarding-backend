@@ -5,6 +5,7 @@ import preonboarding.wanted.backend.data.apply.Apply;
 import preonboarding.wanted.backend.data.company.Company;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,7 @@ public class Recruit {
     private Company company;
 
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
-    private List<Apply> applies;
+    private final List<Apply> applies = new ArrayList<>();
 
     public void setCompany(Company company) {
         this.company = company;
