@@ -8,6 +8,7 @@ import preonboarding.wanted.backend.data.apply.ApplyInfoDto;
 import preonboarding.wanted.backend.data.apply.ApplyRequestDto;
 import preonboarding.wanted.backend.data.recruit.Recruit;
 import preonboarding.wanted.backend.data.user.User;
+import preonboarding.wanted.backend.exception.ApplyNotFoundException;
 import preonboarding.wanted.backend.exception.DuplicateApplyException;
 import preonboarding.wanted.backend.exception.RecruitNotFoundException;
 import preonboarding.wanted.backend.exception.UserNotFoundException;
@@ -42,14 +43,13 @@ public class ApplyService {
     }
 
     public ApplyInfoDto findById(Long id) {
-        return applyRepository.findById(id).orElseThrow().toInfoDto();
+        return applyRepository.findById(id).orElseThrow(ApplyNotFoundException::new).toInfoDto();
     }
 
     public List<ApplyInfoDto> findByUserId(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
         return applyRepository.findByUser(user).stream().map(Apply::toInfoDto).toList();
     }
-
 
     private void checkDuplicateApply(User user, Recruit recruit) {
         applyRepository.findByUserAndRecruit(user, recruit).ifPresent(apply -> {

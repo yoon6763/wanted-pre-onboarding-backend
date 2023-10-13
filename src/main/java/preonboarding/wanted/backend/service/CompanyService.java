@@ -29,20 +29,19 @@ public class CompanyService {
     }
 
     @Transactional
-    public Long update(Long id, CompanyUpdateDto editDto) {
+    public Long update(Long id, CompanyUpdateDto companyUpdateDto) {
         Company company = companyRepository.findById(id).orElseThrow(CompanyNotFoundException::new);
-        company.update(editDto);
+        company.update(companyUpdateDto);
         return company.getId();
     }
 
     public List<CompanyInfoDto> findAll() {
-        return companyRepository.findAll().stream()
-                .map(Company::toInfoDto)
-                .toList();
+        return companyRepository.findAll().stream().map(Company::toInfoDto).toList();
     }
 
     @Transactional
     public void delete(Long id) {
-        companyRepository.deleteById(id);
+        Company company = companyRepository.findById(id).orElseThrow(CompanyNotFoundException::new);
+        companyRepository.delete(company);
     }
 }
