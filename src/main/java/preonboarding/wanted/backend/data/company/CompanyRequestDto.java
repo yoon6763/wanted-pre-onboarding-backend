@@ -1,12 +1,10 @@
 package preonboarding.wanted.backend.data.company;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Data
+@AllArgsConstructor
 public class CompanyRequestDto {
     private String name;
     private String country;

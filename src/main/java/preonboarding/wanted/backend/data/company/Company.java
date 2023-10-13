@@ -25,7 +25,7 @@ public class Company {
     private String location;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<Recruit> recruits = new ArrayList<>();
+    private final List<Recruit> recruits = new ArrayList<>();
 
     public static Company of(CompanyRequestDto requestDto) {
         return Company.builder()
