@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import preonboarding.wanted.backend.data.apply.ApplyInfoDto;
 import preonboarding.wanted.backend.data.apply.ApplyRequestDto;
+import preonboarding.wanted.backend.data.common.RegisterResponse;
 import preonboarding.wanted.backend.service.ApplyService;
 
 import java.util.List;
@@ -16,8 +17,8 @@ public class ApplyController {
     private final ApplyService applyService;
 
     @PostMapping
-    public Long apply(@RequestBody ApplyRequestDto applyRequestDto) {
-        return applyService.apply(applyRequestDto);
+    public RegisterResponse apply(@RequestBody ApplyRequestDto applyRequestDto) {
+        return new RegisterResponse(applyService.apply(applyRequestDto));
     }
 
     @GetMapping

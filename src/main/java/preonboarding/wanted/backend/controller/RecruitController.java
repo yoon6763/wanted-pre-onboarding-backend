@@ -3,6 +3,7 @@ package preonboarding.wanted.backend.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import preonboarding.wanted.backend.data.common.RegisterResponse;
 import preonboarding.wanted.backend.data.recruit.RecruitDetailDto;
 import preonboarding.wanted.backend.data.recruit.RecruitInfoDto;
 import preonboarding.wanted.backend.data.recruit.RecruitRequestDto;
@@ -20,8 +21,8 @@ public class RecruitController {
     private final RecruitService recruitService;
 
     @PostMapping
-    public Long registerRecruit(@RequestBody RecruitRequestDto recruitRequestDto) {
-        return recruitService.registerRecruit(recruitRequestDto);
+    public RegisterResponse registerRecruit(@RequestBody RecruitRequestDto recruitRequestDto) {
+        return new RegisterResponse(recruitService.registerRecruit(recruitRequestDto));
     }
 
     @GetMapping("/{id}")

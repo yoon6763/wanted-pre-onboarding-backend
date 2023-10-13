@@ -3,10 +3,12 @@ package preonboarding.wanted.backend.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import preonboarding.wanted.backend.data.common.RegisterResponse;
 import preonboarding.wanted.backend.data.company.CompanyInfoDto;
 import preonboarding.wanted.backend.data.company.CompanyRequestDto;
 import preonboarding.wanted.backend.data.company.CompanyUpdateDto;
 import preonboarding.wanted.backend.service.CompanyService;
+
 import java.util.List;
 
 @Slf4j
@@ -22,9 +24,8 @@ public class CompanyController {
     }
 
     @PostMapping("/api/company")
-    public Long saveCompany(@RequestBody CompanyRequestDto companyRequestDto) {
-        log.info("companyRequestDto: {}", companyRequestDto);
-        return companyService.save(companyRequestDto);
+    public RegisterResponse saveCompany(@RequestBody CompanyRequestDto companyRequestDto) {
+        return new RegisterResponse(companyService.save(companyRequestDto));
     }
 
     @PutMapping("/api/company/{id}")
